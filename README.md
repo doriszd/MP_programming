@@ -1,5 +1,7 @@
-# MP_programming
+#### Multi-paradigm programming
 
+##### Shop Assignment
 
+##### Student: Doris Zdravkovic
 
-test
+----------------------------------------------------------
