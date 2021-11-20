@@ -60,7 +60,16 @@ to be able to describe the person and have the person do something. A class call
 person looks like and what a person can do. Examples of object-oriented languages include C#, Java, Perl and Python.[2]
 
 
+----------------------------------------------------------------------------------------------------------------------------------
 
+#### Similarities and differences in procedural and object oriented programming
+
+to be continued
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
 
 References
 
