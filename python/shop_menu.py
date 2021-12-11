@@ -64,9 +64,16 @@ def read_customer(file_path):
 def print_product(p):
     print(f'\nPRODUCT NAME: {p.name} \nPRODUCT PRICE: {p.price}')
 
-def print_customer(c):
-    print(f'CUSTOMER NAME: {c.name} \nCUSTOMER BUDGET: {c.budget}')
-    
+def print_customer(c, s):
+    check_stock(c, s)
+    calculate_costs(c, s)
+    total_order = 0
+
+    print(f'--------------------------------------------------------')
+    print(f'--------------------------------------------------------\n')
+    print(f'Customer name: {c.name} \nCustomer budget: {c.budget}')
+    print(f'--------------------------------------------------------\n')
+
     for item in c.shopping_list:
         print_product(item.product)
         
@@ -79,9 +86,75 @@ def print_shop(s):
     for item in s.stock:
         print_product(item.product)
         print(f'The Shop has {item.quantity} of the above')
+def check_stock(c, s):
+    for item in c.shopping_list:
+        for pr in s.stock:
+                if item.product.name == pr.product.name and item.quantity <= pr.quantity:
+                    print(item, item.quantity, pr.quantity)
+                    # print("OK") 
+                elif item.product.name == pr.product.name and item.quantity > pr.quantity:
+                    print(f"There is not enough {item.product.name}, please select again to continue with your purchase.")
+                    main()
 
-#s = create_and_stock_shop()
+def calculate_costs(c, s):
+    for shop_item in s.stock:
+        for list_item in c.shopping_list:
+            if (list_item.product.name == shop_item.product.name):
+                list_item.product.price = shop_item.product.price
+def live_mode():
+    
+    print("----------------------------------------------------\n")
+    print("----------------------------------------------------\n")
+    print("       Welcome to our Live Shop  \n")
+    print("----------------------------------------------------\n")
+    print("----------------------------------------------------\n")
+    
+    cust_name = input("Please enter your name: ") # live shop will  ask for your name
+    budget= float(input(f"Please enter your budget {cust_name}: "))
+    c = Customer(cust_name, budget)
+    print("Products listed below are available in our shop:")
+    print_shop(s)
+    shopping_list=[]
+    additional_items = "Y"
+    while (additional_items == "Y"):
+        name = input("What product would you like to buy?: ")
+        quantity = int(input("Quantity: "))
+        p = Product(name)
+        ps = ProductStock(p, quantity)
+        c.shopping_list.append(ps)
+        additional_items = input("Would you like to buy any additional items? Y/N \n")
+
+    return c
+
+def print_shop(s):
+    
+    print(f'-------------------------------------------------------\n') 
+    print(f'   PRODUCTS AVAILABLE IN OUR LIVE SHOP ')
+    print(f'-------------------------------------------------------\n') 
+
+    for item in s.stock:
+        print_product(item.product)
+        print(f'The Shop has {item.quantity} of the above')
+    
+    print(f'\n')
+    print(f'-------------------------------------------------------\n') 
+
+def main():
+    live_mode()
+   
+    
+   
+    print(f'-------------------------------------------------------\n') 
+    print("      Thank you for shopping in our Live Shop")
+    print(f'-------------------------------------------------------\n') 
+
+
+s = create_and_stock_shop()
 #print_shop(s)
 
 c = read_customer("../customer.csv")
-print_customer(c)
+#print_customer(c, s)
+
+if __name__ == "__main__":
+    
+    main()
