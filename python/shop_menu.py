@@ -173,14 +173,15 @@ def live_mode():
         p = Product(name)
         ps = ProductStock(p, quantity)
         c.shopping_list.append(ps)
-        additional_items = input("Would you like to buy any additional items? Y/N \n")
+        additional_items = input("Would you like to buy any other items? Y/N \n")
 
     return c
 
+# printing menu options
 def display_menu():
     print("MENU")
     print("----------------------------------------------------\n")
-    print("1- Choose pre loaded baskets")
+    print("1- Test menu")
     print("2- Live mode")
     print("3- Check shop cash")
     print("4- Check shop cash & stock")
@@ -190,37 +191,38 @@ def display_menu():
 # Main menu options
 def main():
     while True:
+        # printing menu options
         display_menu()
         choice = input("Choice: ")
-
+        # if end user chooses 1 it will lead him to test menu
         if (choice == "1"):
             custmenu()
-
+        # if end user chooses 2 it will lead him to live mode
         elif (choice == "2"):
             c= live_mode()
             print_customer(c, s)
-
+        # if end user chooses 3 it will print shop cash
         elif (choice == "3"):
             print(f"\nThe shop has €{s.cash:.2f}\n")
-            
+        # if end user chooses 4 if will print shop cash and stock    
         elif (choice == "4"):
             print_shop(s) 
-
+        # end user will enter X to exit the app
         elif (choice == "X"):
             exit()
 
         else:
-            print("This is not a valid selection\n")
+            print("Please choose from 1 to 4 or X to exit the app\n")
 
 
-# Sub menu for displaying customer pre loaded baskets 
+# Test menu 
 def display_custmenu():
     print("1- Sufficient funds")
     print("2- Insufficient funds")
     print("3- Not in stock")
     print("X- Exit")
 
-# Sub menu options
+# Test menu options
 def custmenu():
     while True:
         print("\nCustomer test csv files available-")
