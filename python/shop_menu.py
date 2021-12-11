@@ -87,43 +87,55 @@ def print_customer(c, s):
         
          # Check if the ordered product exists in the shop
         if  (cost == 0):
-            print(f"The product {item.product.name} cannot be found. Please enter a name matching the shop stock shown above.")
+            print(f"We do not offer {item.product.name} in our shop. Please enter a product from the list above.")
             main()
 
         total_order += cost
         print(f"The cost to {c.name} will be €{cost:.2f}.\n")
-     # Check if customer has enough in budget to fulfill the order. Adjust shop cash and stock levels accordingly
+
+     # checking if the customer has enough money to fulfill the order. Shop cash and stock level will adjust accordingly
     if total_order <= c.budget:
         s.cash += total_order
-        print(f"The total price of this purchase for {c.name} is €{total_order:.2f}. Transaction successful.  {c.name} now has €{c.budget-total_order:.2f}  in the budget. Shop cash is now €{s.cash}.\n")
-        for item in c.shopping_list:    # Iterate through individual items in shopping list
-            for pr in s.stock:        # Iterate the item pulled from shopping list through the shop stock 
-                if item.product.name == pr.product.name:          # If names are equal then adjust quantities outlined below
-                    pr.quantity = pr.quantity - item.quantity   # Update shop quantities to reflect purchased goods taken from shop stock
+        # Succesfull transaction
+        print(f"The total price of this purchase for {c.name} is €{total_order:.2f}. Transaction successful. {c.name} now has €{c.budget-total_order:.2f}  in the budget. Shop cash is now €{s.cash}.\n")
+        # Iterate through all items in shopping list
+        for item in c.shopping_list: 
+            # Iterate the item from shopping list through the shop stock    
+            for pr in s.stock:        
+                if item.product.name == pr.product.name:  
+                    # Update shop quantities accordingly       
+                    pr.quantity = pr.quantity - item.quantity   
+    # insufficient funds
     else:
-        print(f"The total price of the order for {c.name} is €{total_order:.2f}. {c.name} has insufficient funds to complete the transaction.\n")
+        print(f"The total price of the order for {c.name} is €{total_order:.2f}. Unfortunatelly {c.name} has insufficient funds to complete the transaction.\n")
 
-
+# print products and thier quantity 
 def print_shop(s):
     print(f'Shop has {s.cash:.2f} in cash')
     for item in s.stock:
         print_product(item.product)
         print(f'The Shop has {item.quantity:.0f} of the above')
 
-
+# check if there is enough products in the shop
 def check_stock(c, s):
+    # Iterate through all items in shopping list
     for item in c.shopping_list:
+        # Iterate the item from shopping list through the shop stock  
         for pr in s.stock:
                 if item.product.name == pr.product.name and item.quantity >= pr.quantity:
-                    print(f"We do not have enough stock of {item.product.name}, please re-select products to continue with your purchase.")
+                    print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
                     custmenu()
                 
-
+# calculating costs
 def calculate_costs(c, s):
+    # Iterate the item through the shop stock  
     for shop_item in s.stock:
+        # Iterate the item from stock through shopping list
         for list_item in c.shopping_list:
             if (list_item.product.name == shop_item.product.name):
                 list_item.product.price = shop_item.product.price
+
+# interactive live mode               
 def live_mode():
     
     print("----------------------------------------------------\n")
@@ -132,8 +144,10 @@ def live_mode():
     print("----------------------------------------------------\n")
     print("----------------------------------------------------\n")
     
-    cust_name = input("Please enter your name: ") # live shop will  ask for your name
-    
+    # end user is asked to enter their name 
+    cust_name = input("Please enter your name: ") 
+
+    # end user is asked to enter their budget 
     try:
         budget= float(input(f"Please enter your budget {cust_name}: "))
     
@@ -142,7 +156,7 @@ def live_mode():
         live_mode()
 
     c = Customer(cust_name, budget)
-    print("Products listed below are available in our shop:")
+    print("Products available in our shop:")
     print_shop(s)
     shopping_list=[]
     additional_items = "Y"
@@ -165,13 +179,13 @@ def live_mode():
 
 def display_menu():
     print("MENU")
-    print("====")
+    print("----------------------------------------------------\n")
     print("1- Choose pre loaded baskets")
     print("2- Live mode")
     print("3- Check shop cash")
     print("4- Check shop cash & stock")
     print("X- Exit")
-
+    print("----------------------------------------------------\n")
 
 # Main menu options
 def main():
