@@ -65,23 +65,27 @@ def print_product(p):
     print(f'\nPRODUCT NAME: {p.name} \nPRODUCT PRICE: {p.price}')
 
 def print_customer(c, s):
+    # to check if there is enough products in the stock. 
     check_stock(c, s)
+    # to calculate the cost of the bought items
     calculate_costs(c, s)
+    # initial value of variable for total order
     total_order = 0
 
+    # printing customer name and budget
     print(f'--------------------------------------------------------')
     print(f'--------------------------------------------------------\n')
     print(f'Customer name: {c.name} \nCustomer budget: {c.budget}')
     print(f'--------------------------------------------------------\n')
-
+    # iterate through all items in the shopping list to calculate the price of the order
     for item in c.shopping_list:
-        
-        
-        print(f'{c.name} ORDERS {item.quantity} OF ABOVE PRODUCT')
+        # printing name and quantity of the product
+        print(f'{c.name} orders {item.quantity} of the product')
+        # calculating cost = quantity times product price
         cost = item.quantity * item.product.price
         
         
-         # Check item exists in the store
+         # Check if the ordered product exists in the shop
         if  (cost == 0):
             print(f"The product {item.product.name} cannot be found. Please enter a name matching the shop stock shown above.")
             main()
@@ -91,7 +95,7 @@ def print_customer(c, s):
      # Check if customer has enough in budget to fulfill the order. Adjust shop cash and stock levels accordingly
     if total_order <= c.budget:
         s.cash += total_order
-        print(f"The total price of the order for {c.name} is €{total_order:.2f}. Transaction complete.  {c.name} now  has €{c.budget-total_order:.2f} remaining in their budget. Shop cash is now €{s.cash}.\n")
+        print(f"The total price of this purchase for {c.name} is €{total_order:.2f}. Transaction successful.  {c.name} now has €{c.budget-total_order:.2f}  in the budget. Shop cash is now €{s.cash}.\n")
         for item in c.shopping_list:    # Iterate through individual items in shopping list
             for pr in s.stock:        # Iterate the item pulled from shopping list through the shop stock 
                 if item.product.name == pr.product.name:          # If names are equal then adjust quantities outlined below
@@ -101,16 +105,16 @@ def print_customer(c, s):
 
 
 def print_shop(s):
-    print(f'Shop has {s.cash} in cash')
+    print(f'Shop has {s.cash:.2f} in cash')
     for item in s.stock:
         print_product(item.product)
-        print(f'The Shop has {item.quantity} of the above')
+        print(f'The Shop has {item.quantity:.0f} of the above')
 
 
 def check_stock(c, s):
     for item in c.shopping_list:
         for pr in s.stock:
-                if item.product.name == pr.product.name and item.quantity <= pr.quantity:
+                if item.product.name == pr.product.name and item.quantity >= pr.quantity:
                     print(f"We do not have enough stock of {item.product.name}, please re-select products to continue with your purchase.")
                     custmenu()
                 
@@ -185,7 +189,9 @@ def main():
         elif (choice == "3"):
             print(f"\nThe shop has €{s.cash:.2f}\n")
             
-        
+        elif (choice == "4"):
+            print_shop(s) 
+
         elif (choice == "X"):
             exit()
 
