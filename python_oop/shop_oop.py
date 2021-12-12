@@ -29,9 +29,9 @@ class ProductStock:
 
 class Customer:
 
-    def __init__(self, path):
+    def __init__(self, file_path):
         self.shopping_list = []
-        with open(path) as csv_file:
+        with open(file_path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             first_row = next(csv_reader)
             self.name = first_row[0]
@@ -44,7 +44,6 @@ class Customer:
                 self.shopping_list.append(ps) 
 
     def __repr__(self):
-        
         str = f""
         Customer.check_stock(self)                  # Check stock levels are adequate to cover customers order
         Customer.calculate_costs(self, s.stock)
@@ -62,7 +61,7 @@ class Customer:
         if Customer.order_cost(self)<= self.budget:
             s.cash += Customer.order_cost(self)
             # Succesfull transaction
-            str +=f"The total price of this purchase for {self.name} is €{Customer.order_cost(self):.2f}. Transaction successful. {self.name} now has €{self.budget-order_cost:.2f}  in the budget. Shop cash is now €{s.cash}.\n"
+            str += f"\nThe total price of this purchase for {self.name} is €{Customer.order_cost(self):.2f}. Transaction successful. {self.name} now has €{self.budget - Customer.order_cost(self):.2f}  in the budget. Shop cash is now €{s.cash}.\n"
             # Iterate through all items in shopping list
             for item in self.shopping_list: 
             # Iterate the item from shopping list through the shop stock    
@@ -74,13 +73,7 @@ class Customer:
         else:
             str += f"The total price of the order for {self.name} is €{Customer.order_cost(self):.2f}. Unfortunatelly {self.name} has insufficient funds to complete the transaction.\n"
         return str
-                
-    def calculate_costs(self, price_list):
-        for shop_item in price_list:
-            for list_item in self.shopping_list:
-                if (list_item.name() == shop_item.name()):
-                    list_item.product.price = shop_item.unit_price()
-    
+        
     def order_cost(self):
         total_order = 0
         
@@ -88,6 +81,16 @@ class Customer:
             total_order += list_item.cost()
         
         return total_order
+
+    
+                
+    def calculate_costs(self, price_list):
+        for shop_item in price_list:
+            for list_item in self.shopping_list:
+                if (list_item.name() == shop_item.name()):
+                    list_item.product.price = shop_item.unit_price()
+    
+    
 
     # Check shop has adequate stocks to fulfill order
     def check_stock(self):
@@ -99,7 +102,7 @@ class Customer:
                     print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
                     Menu().custmenu()
 
-class live_mode:
+class Live_mode:
     
     print("----------------------------------------------------\n")
     print("----------------------------------------------------\n")
@@ -113,26 +116,27 @@ class live_mode:
 
     # end user is asked to enter their budget 
         try:
-            self.budget= float(input(f"Please enter your budget {self_name}: "))
+            self.budget= float(input(f"Please enter your budget {self.name}: "))
     
         except ValueError:
             print("\nPlease enter a float value for the budget.\n")
-            live_mode()
+            Live_mode()
 
     
-    print("Products available in our shop:")
-    print(s)
-    shopping_list=[]
-    additional_items = "Y"
-    while (additional_items == "Y"):
-        name = input("What product would you like to buy?: ")
+        print("Products available in our shop:")
+        print(s)
+        shopping_list=[]
+        additional_items = "Y"
+        while (additional_items == "Y"):
+            name = input("What product would you like to buy?: ")
         
-        try:
-            quantity = int(input("Quantity: "))
+            try:
+                quantity = int(input("Quantity: "))
         
-        except ValueError:
-            print ("\nPlease enter an integer value for the quantity. Restarting order process...\n")   
-            live_mode()
+            except ValueError:
+                print ("\nPlease enter an integer value for the quantity. Restarting order process...\n")   
+                Live_mode()
+
 
 
         p = Product(name)
@@ -188,7 +192,7 @@ class Menu:
                 self.custmenu()
             # if end user chooses 2 it will lead him to live mode
             elif (choice == "2"):
-                c= live_mode()
+                c= Live_mode()
                 print(c)
             # if end user chooses 3 it will print shop cash
             elif (choice == "3"):
@@ -232,11 +236,7 @@ class Menu:
                     exit()
                 else:
                     print("This is not a valid selection. Please re-select.\n")
-
-
-
-
-
+                    
 if __name__=="__main__":
     s = Shop("../stock.csv")
     print(s)
