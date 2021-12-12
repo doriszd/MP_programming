@@ -7,7 +7,7 @@ class Product:
         self.price = price
     
     def __repr__(self):
-        return f'NAME: {self.name} PRICE: {self.price}'
+        return f'PRODUCT NAME: {self.name} PRODUCT PRICE: {self.price:.2f}'
 
 class ProductStock:
     
@@ -25,7 +25,7 @@ class ProductStock:
         return self.unit_price() * self.quantity
         
     def __repr__(self):
-        return f"{self.product} QUANTITY: {self.quantity}"
+        return f"{self.product} \nThe Shop has: {self.quantity:.0f} of the above "
 
 class Customer:
 
@@ -42,6 +42,38 @@ class Customer:
                 p = Product(name)
                 ps = ProductStock(p, quantity)
                 self.shopping_list.append(ps) 
+
+    def __repr__(self):
+        
+        str = f""
+        Customer.check_stock(self)                  # Check stock levels are adequate to cover customers order
+        Customer.calculate_costs(self, s.stock)
+        str += f"Customer name: {self.name} \nCustomer budget: {self.budget:.2f}\n"
+
+        for item in self.shopping_list:
+            cost = item.cost()
+            #str += f"\n{item}"
+            if (cost == 0):
+                print(f"We do not offer {item.product.name} in our shop. Please enter a product from the list above.")
+                Menu().main()
+            else:
+                print(f"The cost to {self.name} will be €{cost:.2f}.\n")
+                
+        if Customer.order_cost(self)<= self.budget:
+            s.cash += Customer.order_cost(self)
+            # Succesfull transaction
+            str +=f"The total price of this purchase for {self.name} is €{Customer.order_cost(self):.2f}. Transaction successful. {self.name} now has €{self.budget-order_cost:.2f}  in the budget. Shop cash is now €{s.cash}.\n"
+            # Iterate through all items in shopping list
+            for item in self.shopping_list: 
+            # Iterate the item from shopping list through the shop stock    
+                for pr in s.stock:        
+                    if item.product.name == pr.product.name:  
+                    # Update shop quantities accordingly       
+                        pr.quantity = pr.quantity - item.quantity   
+    # insufficient funds
+        else:
+            str += f"The total price of the order for {self.name} is €{Customer.order_cost(self):.2f}. Unfortunatelly {self.name} has insufficient funds to complete the transaction.\n"
+        return str
                 
     def calculate_costs(self, price_list):
         for shop_item in price_list:
@@ -50,32 +82,31 @@ class Customer:
                     list_item.product.price = shop_item.unit_price()
     
     def order_cost(self):
-        cost = 0
+        total_order = 0
         
         for list_item in self.shopping_list:
-            cost += list_item.cost()
+            total_order += list_item.cost()
         
-        return cost
-    
-    def __repr__(self):
-        
-        str = f"{self.name} wants to buy"
+        return total_order
+
+    # Check shop has adequate stocks to fulfill order
+    def check_stock(self):
+    # Iterate through all items in shopping list
         for item in self.shopping_list:
-            cost = item.cost()
-            str += f"\n{item}"
-            if (cost == 0):
-                str += f" {self.name} doesn't know how much that costs :("
-            else:
-                str += f" COST: {cost}"
-                
-        str += f"\nThe cost would be: {self.order_cost()}, he would have {self.budget - self.order_cost()} left"
-        return str 
+        # Iterate the item from shopping list through the shop stock  
+            for pr in s.stock:
+                if item.product.name == pr.product.name and item.quantity >= pr.quantity:
+                    print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
+                    Menu().custmenu()
+
+
+    
         
 class Shop:
     
-    def __init__(self, path):
+    def __init__(self, file_path):
         self.stock = []
-        with open(path) as csv_file:
+        with open(file_path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             first_row = next(csv_reader)
             self.cash = float(first_row[0])
@@ -91,9 +122,82 @@ class Shop:
             str += f"{item}\n"
         return str
 
-s = Shop("../stock.csv")
-#print(s)
 
-c = Customer("../customer.csv")
-c.calculate_costs(s.stock)
-print(c)
+class Menu:
+
+    # printing menu options
+    def display_menu(self):
+        print("MENU")
+        print("----------------------------------------------------\n")
+        print("1- Test menu")
+        print("2- Live mode")
+        print("3- Check shop cash")
+        print("4- Check shop cash & stock")
+        print("X- Exit")
+        print("----------------------------------------------------\n")
+
+# Main menu options
+    def main():
+        while True:
+        # printing menu options
+            self.display_menu()
+            choice = input("Choice: ")
+            # if end user chooses 1 it will lead him to test menu
+            if (choice == "1"):
+                self.custmenu()
+            # if end user chooses 2 it will lead him to live mode
+            elif (choice == "2"):
+                c= live_mode()
+                print_customer(c)
+            # if end user chooses 3 it will print shop cash
+            elif (choice == "3"):
+                print(f"\nThe shop has €{s.cash:.2f}\n")
+            # if end user chooses 4 if will print shop cash and stock    
+            elif (choice == "4"):
+                print(s) 
+            # end user will enter X to exit the app
+            elif (choice == "X"):
+                exit()
+
+            else:
+                print("Please choose from 1 to 4 or X to exit the app\n")
+
+
+# Test menu 
+    def display_custmenu(self):
+        print("1- Sufficient funds")
+        print("2- Insufficient funds")
+        print("3- Not in stock")
+        print("X- Exit")
+
+    # Test menu options
+    def custmenu(self):
+        while True:
+                print("\nCustomer test csv files available-")
+                self.display_custmenu()
+                customer_type = input("Choice: ")
+                if (customer_type == "1"):
+                    c = Customer("../sufficient_funds.csv")
+                    print(c)
+                elif (customer_type == "2"):
+                    c = Customer("../insufficient_funds.csv")
+                    print(c)
+                elif (customer_type == "3"):
+                    c = Customer("../not_enough_stock.csv")
+                    print(c)
+            
+        
+                elif (customer_type == "X"):
+                    exit()
+                else:
+                    print("This is not a valid selection. Please re-select.\n")
+
+
+
+
+
+if __name__=="__main__":
+    s = Shop("../stock.csv")
+    print(s)
+
+    Menu().main()
