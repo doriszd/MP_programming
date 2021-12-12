@@ -57,7 +57,7 @@ class Customer:
                 print(f"We do not offer {item.product.name} in our shop. Please enter a product from the list above.")
                 Menu().main()
             else:
-                print(f"The cost to {self.name} will be €{cost:.2f}.\n")
+                str += f"The cost to {self.name} will be €{cost:.2f}.\n"
                 
         if Customer.order_cost(self)<= self.budget:
             s.cash += Customer.order_cost(self)
@@ -95,12 +95,54 @@ class Customer:
         for item in self.shopping_list:
         # Iterate the item from shopping list through the shop stock  
             for pr in s.stock:
-                if item.product.name == pr.product.name and item.quantity >= pr.quantity:
+                if item.product.name == pr.product.name and item.quantity > pr.quantity:
                     print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
                     Menu().custmenu()
 
 
+class live_mode():
     
+    print("----------------------------------------------------\n")
+    print("----------------------------------------------------\n")
+    print("       Welcome to our Live Shop  \n")
+    print("----------------------------------------------------\n")
+    print("----------------------------------------------------\n")
+    
+    # end user is asked to enter their name 
+    def __init__(self):
+        self.name = input("What is your name? ")
+
+    # end user is asked to enter their budget 
+        try:
+            self.budget= float(input(f"Please enter your budget {cust_name}: "))
+    
+        except ValueError:
+            print("\nPlease enter a float value for the budget.\n")
+            live_mode()
+
+    
+    print("Products available in our shop:")
+    print(s)
+    shopping_list=[]
+    additional_items = "Y"
+    while (additional_items == "Y"):
+        name = input("What product would you like to buy?: ")
+        
+        try:
+            quantity = int(input("Quantity: "))
+        
+        except ValueError:
+            print ("\nPlease enter an integer value for the quantity. Restarting order process...\n")
+            live_mode() 
+
+
+        p = Product(name)
+        ps = ProductStock(p, quantity)
+        c.shopping_list.append(ps)
+        additional_items = input("Would you like to buy any other items? Y/N \n")
+
+    def __repr__(self):    
+        return Customer.__repr__(self)   
         
 class Shop:
     
