@@ -61,7 +61,7 @@ class Customer:
         if Customer.order_cost(self)<= self.budget:
             s.cash += Customer.order_cost(self)
             # Succesfull transaction
-            str += f"\nThe total price of this purchase for {self.name} is €{Customer.order_cost(self):.2f}. Transaction successful. {self.name} now has €{self.budget - Customer.order_cost(self):.2f}  in the budget. Shop cash is now €{s.cash}.\n"
+            str += f"\nThe total price of this purchase for {self.name} is €{Customer.order_cost(self):.2f}. Transaction successful. {self.name} now has €{self.budget - Customer.order_cost(self):.2f}  in the budget. Shop cash is now €{s.cash:.2f}.\n"
             # Iterate through all items in shopping list
             for item in self.shopping_list: 
             # Iterate the item from shopping list through the shop stock    
@@ -125,7 +125,7 @@ class Live_mode:
     
         print("Products available in our shop:")
         print(s)
-        shopping_list=[]
+        self.shopping_list=[]
         additional_items = "Y"
         while (additional_items == "Y"):
             name = input("What product would you like to buy?: ")
@@ -139,10 +139,10 @@ class Live_mode:
 
 
 
-        p = Product(name)
-        ps = ProductStock(p, quantity)
-        self.shopping_list.append(ps)
-        additional_items = input("Would you like to buy any other items? Y/N \n")
+            p = Product(name)
+            ps = ProductStock(p, quantity)
+            self.shopping_list.append(ps)
+            additional_items = input("Would you like to buy any other items? Y/N \n")
 
     def __repr__(self):    
         return Customer.__repr__(self)   
@@ -162,7 +162,7 @@ class Shop:
     
     def __repr__(self):
         str = ""
-        str += f'Shop has {self.cash} in cash\n'
+        str += f'Shop has {self.cash:.2f} in cash\n'
         for item in self.stock:
             str += f"{item}\n"
         return str
@@ -192,7 +192,7 @@ class Menu:
                 self.custmenu()
             # if end user chooses 2 it will lead him to live mode
             elif (choice == "2"):
-                c= Live_mode()
+                c = Live_mode()
                 print(c)
             # if end user chooses 3 it will print shop cash
             elif (choice == "3"):
