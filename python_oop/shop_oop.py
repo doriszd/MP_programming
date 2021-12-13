@@ -111,7 +111,7 @@ class Customer:
                 if item.product.name == pr.product.name and item.quantity > pr.quantity:
                     print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
                     Menu().custmenu()
-                    
+
 # Clas Live mode - interactive
 class Live_mode:
     
@@ -198,10 +198,10 @@ class Menu:
         # printing menu options
             self.display_menu()
             choice = input("Choice: ")
-            # if end user chooses 1 it will lead him to test menu
+            # if end user chooses 1 it will take him to test menu
             if (choice == "1"):
                 self.custmenu()
-            # if end user chooses 2 it will lead him to live mode
+            # if end user chooses 2 it will take him to live mode
             elif (choice == "2"):
                 c = Live_mode()
                 print(c)
