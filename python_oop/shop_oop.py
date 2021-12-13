@@ -1,14 +1,18 @@
+# importing Excell files
 import csv
 
+# Product class containing its name and price
 class Product:
 
     def __init__(self, name, price=0):
         self.name = name
         self.price = price
-    
+
+    # repr function is used to return product name and price
     def __repr__(self):
         return f'PRODUCT NAME: {self.name} PRODUCT PRICE: {self.price:.2f}'
 
+# Product stock class containing its product and quantity
 class ProductStock:
     
     def __init__(self, product, quantity):
@@ -27,6 +31,8 @@ class ProductStock:
     def __repr__(self):
         return f"{self.product} \nThe Shop has: {self.quantity:.0f} of the above "
 
+
+# Class Customer containing 3 other methods - check stock, calcuate costs and order cost.
 class Customer:
 
     def __init__(self, file_path):
@@ -45,10 +51,13 @@ class Customer:
 
     def __repr__(self):
         str = f""
-        Customer.check_stock(self)                  # Check stock levels are adequate to cover customers order
+         # Checking if there is enough stock that end user ordered
+        Customer.check_stock(self)  
+        # Calculating cost of the order               
         Customer.calculate_costs(self, s.stock)
+        # printing customer name and budget
         str += f"Customer name: {self.name} \nCustomer budget: {self.budget:.2f}\n"
-
+        # looping through Customer shopping list
         for item in self.shopping_list:
             cost = item.cost()
             #str += f"\n{item}"
@@ -73,7 +82,7 @@ class Customer:
         else:
             str += f"The total price of the order for {self.name} is €{Customer.order_cost(self):.2f}. Unfortunatelly {self.name} has insufficient funds to complete the transaction.\n"
         return str
-        
+       
     def order_cost(self):
         total_order = 0
         
@@ -85,6 +94,7 @@ class Customer:
     
                 
     def calculate_costs(self, price_list):
+        # Iterate the item through the price list
         for shop_item in price_list:
             for list_item in self.shopping_list:
                 if (list_item.name() == shop_item.name()):
@@ -101,7 +111,8 @@ class Customer:
                 if item.product.name == pr.product.name and item.quantity > pr.quantity:
                     print(f"Unfortunatelly you can not buy {item.product.name}, as there is not enough {item.product.name} in shop stock. Please select again. ")
                     Menu().custmenu()
-
+                    
+# Clas Live mode - interactive
 class Live_mode:
     
     print("----------------------------------------------------\n")
