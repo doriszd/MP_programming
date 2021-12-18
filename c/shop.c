@@ -51,7 +51,7 @@ struct Shop createAndStockShop()
     size_t len = 0;
     ssize_t read;
 
-    fp = fopen("../stock.csv", "r");
+    fp = fopen("stock.csv", "r");
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
@@ -88,6 +88,32 @@ void printShop(struct Shop s)
 		printProduct(s.stock[i].product);
 		printf("The shop has %d of the above\n", s.stock[i].quantity);
 	}
+}
+
+void live_Mode(struct Shop *shop)
+{
+
+    char *custName;
+	double custBudget;
+	char additional_items[] = "Y"; // Create starting condition to open while loop
+	char *prod;
+	int quantity;
+
+    printf("----------------------------------------------------\n");
+    printf("----------------------------------------------------\n");
+    printf("       Welcome to our Live Shop  \n");
+    printf("----------------------------------------------------\n");
+    printf("----------------------------------------------------\n");
+    
+	
+    // End user is asked to enter thier name
+	printf("Please enter your name? ");
+	fflush(stdin);
+	scanf("\n%[^\n]%*c", &custName);
+	
+	printf("Please enter your budget %s: €", &custName);
+	scanf("%lf", &custBudget);
+
 }
 
 int main(void) 
