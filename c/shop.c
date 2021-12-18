@@ -114,9 +114,46 @@ void live_Mode(struct Shop *shop)
 	printf("Please enter your budget %s: €", &custName);
 	scanf("%lf", &custBudget);
 
+	struct Customer customer = {custName, custBudget};
+
 }
 
-int main(void) 
+
+void display_menu(struct Shop *shop)
+{
+	int choice;
+
+	while(1)
+	{
+		puts("\nMENU");
+		puts("----------------------------------------------------");
+		puts("1- Test menu");
+		puts("2- Live mode");
+		puts("3- Check shop cash");
+		puts("4- Check shop cash & stock");
+		puts("5- Exit");
+		fflush(stdin);
+		scanf("%i", &choice);
+
+		switch(choice){
+			case 1: puts("\nChoice:");
+				display_custmenu(&(*shop));
+				break;
+			case 2:
+				liveMode(&(*shop));
+				break;
+			case 3:
+				printf("The shop has €%.2f\n", shop->cash);
+				break;
+			case 4:
+				exit(1);
+				
+			default:
+				puts("Please choose from 1 to 4 or X to exit the app\n");
+				
+		}
+	} 
+int main(void)
 {
 	struct Shop shop = createAndStockShop();
 	printShop(shop);
