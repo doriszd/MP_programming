@@ -118,7 +118,40 @@ void live_Mode(struct Shop *shop)
 
 }
 
+void display_custmenu(struct Shop *shop)
+{
+	int choice2;
+	char * file_path;
 
+	while(1)
+	{
+		puts("1- Sufficient funds");
+		puts("2- Insufficient funds");
+		puts("3- Not in stock");
+		puts("X- Exit");
+		printf("Choice: ");
+		fflush(stdin);
+		scanf("%i", &choice2);
+
+		switch(choice2){
+			case 1:			 
+				file_path = "../sufficient_funds.csv";
+				custOrder(&(*shop), file_path);
+				break;
+			case 2:
+				file_path = "../insufficient_funds.csv";
+				custOrder(&(*shop), file_path);
+				break;
+			case 3:
+				file_path = "../not_enough_stock.csv";
+				custOrder(&(*shop), file_path);
+				break;
+			case 5:
+				exit(1);
+				break;
+		}
+	}
+}
 void display_menu(struct Shop *shop)
 {
 	int choice;
