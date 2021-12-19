@@ -92,9 +92,9 @@ struct Customer custOrder(struct Shop *shop, char *file_path)
 			}
 
 			// Check if customer has enough in their budget to afford the purchase
-			if (customer.budget < customer.totalCost){
-				printf("The total price of the order for %s is €%.2f. %s has insufficient funds to complete the transaction.\n\n", customer.name, customer.totalCost, customer.name);
-				return customer;
+					if (customer.budget < customer.totalCost){
+						printf("The total price of the order for %s is €%.2f. %s has insufficient funds to complete the transaction.\n", customer.name, customer.totalCost, customer.name);
+						return customer;
 			}
 
 			// Adjust shop quantities 
@@ -272,7 +272,7 @@ void display_custmenu(struct Shop *shop)
 		puts("1- Sufficient funds");
 		puts("2- Insufficient funds");
 		puts("3- Not in stock");
-		puts("X- Exit");
+		puts("4- Exit");
 		printf("Choice: ");
 		fflush(stdin);
 		scanf("%i", &choice2);
@@ -290,7 +290,7 @@ void display_custmenu(struct Shop *shop)
 				file_path = "not_enough_stock.csv";
 				custOrder(&(*shop), file_path);
 				break;
-			case 5:
+			case 4:
 				exit(1);
 				break;
 		}
