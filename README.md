@@ -64,17 +64,42 @@ person looks like and what a person can do. Examples of object-oriented language
 
 #### Similarities and differences in procedural and object oriented programming
 
-to be continued
+When you compare Python procedural and Python OOP style you can see some differences although the language is the same. With procedural style 
+we break a problem into function and each function does one task. When we run the programme our main program is a series of calls to the 
+different functions. In shop case in Python procedural style functions or methods are firstly written separately and then called in the main 
+function when needed. For example, display_menu function. Whereas in OOP programme starts by making a class that contains specific information.  
+In shop case class Product contains information about its name and price. Once classes are defined we need to write what operations need to happen 
+on the data. These are called methods. Once we have everything defined we can create objects. When you create and object they have all of the attributes 
+and methods defined in their class. .__init__ is a reserved function in Python that is invoked when an object of a class is created. We can also pass 
+arguments to the __init__ method to initialize data members of different objects with unique values.[3] In shop example this is __init__ function with 
+parameters: 
+
+def__init__(self,name,price=0):
+self.name = name	
+self.price = price	
+	
+When we talk about similarities in OOP and procedural programming style it is obvious that Python OOP and procedural is more similar than procedural style
+in C.  The same syntax can be used in OOP and procedural style in Python  such as the use of if __name__=”main”: Indicating the execution of the code. 
+This is expected as we are talking about the same language, but still few adjustments should be made for calling functions. For example in the OOP shop 
+code each class has a def__repr__function that prints the representation of the object. [4]
+
+To conclude, both programming languages have pros and cons. The important thing is to know in which situation to chose which language. Although C wouldn’t 
+be my first choice because of its complexity it is widely used in industry in the development of firmware and mobile systems where high speed and high 
+performance are very important. Python, on the other hand, is more common to be used in Data Science and related disciplines. 
+
 
 
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-References
+References:
 
-[1] https://www.makeuseof.com/object-oriented-programming-vs-procedural-programming-what-makes-them-different/
-[2] https://study.com/academy/lesson/object-oriented-programming-vs-procedural-programming.html
+-[1] https://www.makeuseof.com/object-oriented-programming-vs-procedural-programming-what-makes-them-different/
+-[2] https://study.com/academy/lesson/object-oriented-programming-vs-procedural-programming.html
+-[3] http://theteacher.info/index.php/algorithms-and-problem-solving-2/problem-solving-and-programming/programming-techniques/object-oriented-techniques/4055-object-oriented-versus-procedural-languages-using-python
+-[4] https://www.geeksforgeeks.org/difference-between-c-and-python/
+
 
 
 
