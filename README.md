@@ -95,10 +95,10 @@ performance are very important. Python, on the other hand, is more common to be 
 
 References:
 
--[1] https://www.makeuseof.com/object-oriented-programming-vs-procedural-programming-what-makes-them-different/
--[2] https://study.com/academy/lesson/object-oriented-programming-vs-procedural-programming.html
--[3] http://theteacher.info/index.php/algorithms-and-problem-solving-2/problem-solving-and-programming/programming-techniques/object-oriented-techniques/4055-object-oriented-versus-procedural-languages-using-python
--[4] https://www.geeksforgeeks.org/difference-between-c-and-python/
+- [1] https://www.makeuseof.com/object-oriented-programming-vs-procedural-programming-what-makes-them-different/
+- [2] https://study.com/academy/lesson/object-oriented-programming-vs-procedural-programming.html
+- [3] http://theteacher.info/index.php/algorithms-and-problem-solving-2/problem-solving-and-programming/programming-techniques/object-oriented-techniques/4055-object-oriented-versus-procedural-languages-using-python
+- [4] https://www.geeksforgeeks.org/difference-between-c-and-python/
 
 
 
