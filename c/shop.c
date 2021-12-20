@@ -49,23 +49,37 @@ struct Customer custOrder(struct Shop *shop, char *file_path)
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
-		read = getline(&line, &len, fp); // reading lines of csv file
-		char *c_name = strtok(line, ","); // Customer name 
-		char *c_bud = strtok(NULL, ","); // Customer budget 
-		char *custName = malloc(sizeof(char) * 50); // Assigning memory space to max 50 characters
-		double custBudget = atof(c_bud); // Converting budget to float from string 
-		strcpy(custName, c_name); // Converting price to float 
-		struct  Customer customer = {custName, custBudget}; // Entering customer details 
+		read = getline(&line, &len, fp); 
+		// Customer name
+		char *c_name = strtok(line, ","); 
+		// Customer budget  
+		char *c_bud = strtok(NULL, ","); 
+		// Assigning memory space to max 50 characters
+		char *custName = malloc(sizeof(char) * 50); 
+		// Converting budget to float from string 
+		double custBudget = atof(c_bud); 
+		// Converting price to float 
+		strcpy(custName, c_name); 
+		// Entering customer details 
+		struct  Customer customer = {custName, custBudget}; 
 		printf("Customer name: %s Customer budget: €%.2f\n\n", customer.name, customer.budget);
 		while ((read = getline(&line,  &len, fp)) != -1) {
-			char *c_prod = strtok(line, ","); // Shopping list item name 
-			char *c_quant = strtok(NULL, ","); // Shopping list quantity 
-			int quantity = atoi(c_quant); // Convert quantity to integer 
-			char *name = malloc(sizeof(char)* 50); // Assigning memory space for shopping list
-			strcpy(name, c_prod); // Copy string customer item c
-			struct Product product = {name}; // Assigning name variable to Product struct
-			struct CustQuant basket = {product, quantity}; // Assigning product and quantity variables to basket
-			customer.shoppingBasket[customer.index++] = basket; // Copy to customers shopping basket 
+			// Shopping list item name 
+			char *c_prod = strtok(line, ","); 
+			// Shopping list quantity
+			char *c_quant = strtok(NULL, ","); 
+			// Convert quantity to integer  
+			int quantity = atoi(c_quant); 
+			// Assigning memory space for shopping list
+			char *name = malloc(sizeof(char)* 50); 
+			// Copy string customer item c
+			strcpy(name, c_prod); 
+			// Assigning name variable to Product struct
+			struct Product product = {name}; 
+			// Assigning product and quantity variables to basket
+			struct CustQuant basket = {product, quantity}; 
+			// Copy to customers shopping basket 
+			customer.shoppingBasket[customer.index++] = basket; 
 		}
 
 	
@@ -83,7 +97,7 @@ struct Customer custOrder(struct Shop *shop, char *file_path)
 			}
 		
 			// Printing costs
-			printf("%s wants %i of the product %s\n", customer.name, customer.shoppingBasket[i].quantity, customer.shoppingBasket[i].product.name);
+			printf("%s orders %i of the product\n", customer.name, customer.shoppingBasket[i].quantity);
 			double cost = customer.shoppingBasket[i].product.price * customer.shoppingBasket[i].quantity;
 
 			//Adjust total cost of new order for each item added.
@@ -93,7 +107,7 @@ struct Customer custOrder(struct Shop *shop, char *file_path)
 
 			// Check if customer has enough in their budget to afford the purchase
 					if (customer.budget < customer.totalCost){
-						printf("The total price of the order for %s is €%.2f. %s has insufficient funds to complete the transaction.\n", customer.name, customer.totalCost, customer.name);
+						printf("The total price of this purchase for %s is €%.2f. Unfortunatelu %s has insufficient funds to complete the transaction.\n", customer.name, customer.totalCost, customer.name);
 						return customer;
 			}
 
@@ -106,7 +120,7 @@ struct Customer custOrder(struct Shop *shop, char *file_path)
 			shop->cash +=  customer.totalCost;
 			customer.budget -= customer.totalCost;
 
-			printf("The total price for the order for %s will be €%.2f. Transaction complete. %s now has €%.2f remaining in their budget. Shop cash is now €%.2f\n", customer.name, customer.totalCost, customer.name, customer.budget, shop->cash);
+			printf("The total price of this purchase for %s is €%.2f. Transaction sucessful. %s now has €%.2f in the budget. Shop cash is now €%.2f\n", customer.name, customer.totalCost, customer.name, customer.budget, shop->cash);
 		return customer;
 }
 
@@ -255,7 +269,7 @@ void live_Mode(struct Shop *shop)
 		// Add customer purchase price to shop cash and reduce customers budget
 		shop->cash +=  customer.totalCost;
 		customer.budget -= customer.totalCost;
-		printf("The total price for the order for %s will be €%.2f. Transaction complete. %s now has €%.2f remaining in their budget. Shop cash is now €%.2f\n", &customer.name, customer.totalCost, &customer.name, customer.budget, shop->cash);
+		printf("The total price for this purchase for %s is €%.2f. Transaction successful. %s now has €%.2f  in their budget. Shop cash is now €%.2f\n", &customer.name, customer.totalCost, &customer.name, customer.budget, shop->cash);
 
 }
 
